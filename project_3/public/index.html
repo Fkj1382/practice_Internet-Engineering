@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت کاربران</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>👥 سیستم مدیریت کاربران</h1>
+            <p>متصل به API امن Express</p>
+        </header>
+
+        <div class="card">
+            <h2>افزودن کاربر جدید</h2>
+            <form id="userForm">
+                <div class="form-group">
+                    <input type="text" id="name" placeholder="نام کاربر" required>
+                    <input type="number" id="age" placeholder="سن" required>
+                </div>
+                <button type="submit">ثبت کاربر</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>لیست کاربران</h2>
+            <div id="loading">در حال بارگذاری...</div>
+            <ul id="userList"></ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
