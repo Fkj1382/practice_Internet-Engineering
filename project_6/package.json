@@ -1,0 +1,21 @@
+{
+  "name": "ejs-todo-project",
+  "version": "1.0.0",
+  "description": "Simple To-Do List with EJS and Express on Codespace",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "ejs",
+    "todo"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
+  }
+}

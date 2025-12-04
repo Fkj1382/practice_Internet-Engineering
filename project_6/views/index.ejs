@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لیست کارهای پیشرفته (EJS)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        body { font-family: Tahoma, sans-serif; background-color: #f4f4f9; color: #333; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .container { width: 100%; max-width: 700px; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+        h1 { color: #4a4a4a; text-align: center; margin-bottom: 25px; }
+        .message, .error { padding: 15px; margin-bottom: 20px; border-radius: 5px; font-weight: bold; text-align: center; }
+        .message { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .add-form, .filter-search-bar { display: flex; gap: 10px; margin-bottom: 30px; }
+        input[type="text"] { flex-grow: 1; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; }
+        button[type="submit"], .filter-search-bar select, .filter-search-bar button { padding: 12px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }
+        button[type="submit"]:hover, .filter-search-bar button:hover { background-color: #0056b3; }
+        .filter-search-bar select { background-color: #6c757d; padding: 12px; color: white; }
+        ul { list-style: none; padding: 0; }
+        li { display: flex; justify-content: space-between; align-items: center; padding: 15px; margin-bottom: 10px; background: #f9f9f9; border-radius: 5px; border-left: 5px solid #007bff; transition: all 0.2s ease-in-out; }
+        li:hover { transform: translateY(-2px); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .done { text-decoration: line-through; color: #999; border-left: 5px solid #28a745; }
+        .actions a { color: #007bff; text-decoration: none; margin-left: 15px; font-size: 1.1em; }
+        .actions a:last-child { color: #dc3545; }
+        .status-text { font-size: 0.9em; color: #888; margin-right: 15px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-list-check"></i> لیست کارهای پیشرفته (EJS)</h1>
+
+        <% if (message) { %>
+            <div class="message"><%= message %></div>
+        <% } %>
+        <% if (error) { %>
+            <div class="error"><%= error %></div>
+        <% } %>
+
+        <form method="POST" action="/add" class="add-form">
+            <input type="text" name="title" placeholder="عنوان کار جدید (الزامی)" required>
+            <button type="submit">افزودن <i class="fas fa-plus-circle"></i></button>
+        </form>
+
+        <hr>
+
+        <form method="GET" action="/" class="filter-search-bar">
+            <input type="text" name="search" placeholder="جستجو در کارها..." value="<%= currentSearch %>">
+            
+            <select name="filter">
+                <option value="all" <%= currentFilter === 'all' ? 'selected' : '' %>>همه کارها</option>
+                <option value="pending" <%= currentFilter === 'pending' ? 'selected' : '' %>>فقط در انتظار</option>
+                <option value="done" <%= currentFilter === 'done' ? 'selected' : '' %>>فقط انجام شده</option>
+            </select>
+            
+            <button type="submit"><i class="fas fa-search"></i> جستجو/فیلتر</button>
+            
+            <a href="/" style="text-decoration: none;">
+                 <button type="button" style="background-color: #6c757d;">ریست <i class="fas fa-undo"></i></button>
+            </a>
+        </form>
+
+        <hr>
+
+        <% if (todos.length === 0) { %>
+            <p style="text-align: center; margin-top: 30px; font-size: 1.1em;">
+                <i class="fas fa-info-circle"></i> هیچ کاری برای نمایش پیدا نشد.
+            </p>
+        <% } else { %>
+            <ul>
+                <% todos.forEach(function(todo) { %>
+                    <li class="<%= todo.status === 'done' ? 'done' : '' %>">
+                        <span>
+                            <%= todo.title %> 
+                            <span class="status-text">(<%= todo.status === 'done' ? 'انجام شده' : 'در انتظار' %>)</span>
+                        </span>
+                        <div class="actions">
+                            <a href="/edit/<%= todo._id %>" title="ویرایش">
+                                <i class="fas fa-edit"></i> ویرایش
+                            </a>
+                            <a href="/delete/<%= todo._id %>" title="حذف">
+                                <i class="fas fa-trash-alt"></i> حذف
+                            </a>
+                        </div>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } %>
+    </div>
+</body>
+</html>
